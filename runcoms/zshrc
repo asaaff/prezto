@@ -19,5 +19,15 @@ fi
 
 # Customize to your needs...
 
+# tmux
+TMUX_OPTIONS="-CC"
+if [[ ! $TMUX && -t 0 && $TERM_PROGRAM != vscode ]]; then
+  tmux $TMUX_OPTIONS new-session -As auto
+fi
+
+alias tmuxl='tmux list-sessions'
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
