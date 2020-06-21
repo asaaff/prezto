@@ -40,7 +40,7 @@ function _is_devvm()
 
 function _is_laptop()
 {
-  [[ _is_fb_machine ]] && [[ ! _is_devvm ]] || false
+  [[ _is_fb_machine ]] && [[ $(uname -s) == 'Darwin' ]] || false
 }
 
 if _is_fb_machine; then
