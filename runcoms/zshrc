@@ -25,6 +25,7 @@ if [[ ! $TMUX && -t 0 && $TERM_PROGRAM != vscode ]]; then
   tmux $TMUX_OPTIONS new-session -As auto
 fi
 
+alias tmuxa="tmux $TMUX_OPTIONS new-session -A"
 alias tmuxl='tmux list-sessions'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
