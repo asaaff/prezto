@@ -28,6 +28,41 @@ fi
 alias tmuxa="tmux $TMUX_OPTIONS new-session -A"
 alias tmuxl='tmux list-sessions'
 
+function _is_fb_machine()
+{
+  [[ -f $HOME/.hgrc ]] || false
+}
+
+function _is_devvm()
+{
+  [[ _is_fb_machine ]] && [[ "$HOSTNAME" =~ "dev(vm|big)[0-9]{3}.[a-z]{3}[0-9]{1}.facebook.com" ]] || false
+}
+
+function _is_laptop()
+{
+  [[ _is_fb_machine ]] && [[ ! _is_devvm ]] || false
+}
+
+if _is_fb_machine; then
+  # devvm specific config
+  if _is_devvm; then
+    [[ -z "$LOCAL_ADMIN_SCRIPTS" ]] && export LOCAL_ADMIN_SCRIPTS='/usr/facebook/ops/rc'
+    source "${LOCAL_ADMIN_SCRIPTS}/master.zshrc"
+    local fb_prompt_file="${LOCAL_ADMIN_SCRIPTS}/scm-prompt"
+  fi
+
+  # laptop specific config
+  if _is_laptop; then
+    local fb_prompt_file=/opt/facebook/share/scm-prompt
+  fi
+
+  if [ -f "$fb_prompt_file" ]; then
+    source "$fb_prompt_file"
+  else
+    echo "couldn't find FB SCM prompt file ${fb_prompt_file}"
+  fi
+fi
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
