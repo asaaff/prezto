@@ -19,6 +19,9 @@ fi
 
 # Customize to your needs...
 
+HISTSIZE=130000
+SAVEHIST=130000
+
 function _is_fb_machine()
 {
   [[ -f $HOME/.hgrc ]] || false
@@ -33,6 +36,23 @@ function _is_laptop()
 {
   [[ _is_fb_machine ]] && [[ $(uname -s) == 'Darwin' ]] || false
 }
+
+function _diff_hg() {
+  if [[ -z $1 ]]; then
+    hg diff -r '.^'
+  else
+    x=$(hg book | grep -e "$1 ")
+    hg diff -c ${x: -12}
+  fi
+}
+
+function mkcd() {
+  mkdir -p "$1" && cd "$1"
+}
+
+alias dhg=_diff_hg
+alias hs='noglob hostselect'
+alias l=less
 
 if _is_fb_machine; then
   ##################################################
