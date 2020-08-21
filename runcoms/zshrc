@@ -1,3 +1,5 @@
+# vim: set ff=unix ts=2 sw=2:
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -59,7 +61,7 @@ function download() {
 }
 
 alias dhg=_diff_hg
-alias hostselect='noglob hostselect'
+alias hs='noglob hostselect'
 alias l=less
 
 if _is_fb_machine; then
@@ -76,16 +78,12 @@ if _is_fb_machine; then
   if _is_devvm; then
     # tmux
     TMUX_OPTIONS="-CC"
-    if [[ ! $TMUX && -t 0 && $TERM_PROGRAM != vscode ]]; then
-      first_unattached=$(tmux list-sessions -F '#{?session_attached,,#{session_name}}' 2>/dev/null | grep -v '^$' | head -1)
-      if [[ $first_unattached ]]; then
-        tmux $TMUX_OPTIONS attach-session -t $first_unattached
-      else
-        tmux $TMUX_OPTIONS new-session
-      fi
-    fi
-    alias tmuxa="tmux $TMUX_OPTIONS new-session -A"
+    alias tmuxa="tmux $TMUX_OPTIONS new -A"
     alias tmuxl='tmux list-sessions'
+
+    if [[ ! $TMUX && -t 0 && $TERM_PROGRAM != vscode ]]; then
+      tmuxa
+    fi
 
     [[ -z "$LOCAL_ADMIN_SCRIPTS" ]] && export LOCAL_ADMIN_SCRIPTS='/usr/facebook/ops/rc'
     source "${LOCAL_ADMIN_SCRIPTS}/master.zshrc"
@@ -128,5 +126,3 @@ fi
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-/* vim: set ff=unix ts=2 sw=2: */
