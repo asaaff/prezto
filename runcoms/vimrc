@@ -20,7 +20,6 @@ set tabstop=4
 set shiftwidth=4
 set hlsearch
 set clipboard^=unnamedplus,unnamed
-set nofixendofline
 set list
 set listchars=tab:>-
 
