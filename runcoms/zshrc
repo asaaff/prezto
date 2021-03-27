@@ -31,6 +31,11 @@ function _is_devvm()
   [[ _is_fb_machine ]] && [[ "$HOSTNAME" =~ "dev(vm|big)[0-9]{3,5}.[a-z]{3}[0-9]{1}.facebook.com" ]] || false
 }
 
+function _is_od()
+{
+  [[ _is_fb_machine ]] && [[ "$HOSTNAME" =~ "[0-9]{5}.od.fbinfra.net" ]] || false
+}
+
 function _is_laptop()
 {
   [[ _is_fb_machine ]] && [[ $(uname -s) == 'Darwin' ]] || false
@@ -80,7 +85,7 @@ if _is_fb_machine; then
   #
   #
   ##################################################
-  if _is_devvm; then
+  if _is_devvm || _is_od; then
     [[ -z "$LOCAL_ADMIN_SCRIPTS" ]] && export LOCAL_ADMIN_SCRIPTS='/usr/facebook/ops/rc'
     source "${LOCAL_ADMIN_SCRIPTS}/master.zshrc"
 
